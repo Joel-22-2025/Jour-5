@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    *{
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+    }
+    body{
+        /* margin: 100px; */
+        background-color: cornflowerblue;
+        height: 100%;
+    }
+    #first-container{
+        position: relative;
+        margin-top: 250px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    #container{
+        display: flex;
+        
+    }
+    p{
+        font-size: 280%;
+        background-color: rgb(34, 34, 71);
+        padding: 10px;
+        border-radius: 10px;
+        color: azure;
+        font-family: cursive;
+    }
+    button{
+        border: none;
+        padding: 15px;
+        width: 120px;
+        margin-top: 30px;
+        border-radius: 10px;
+        font-weight: bold;
+        font-size: 12px;        
+    }
+    h1{
+        text-align: center;
+        font-family: cursive;
+        color: rgb(34, 34, 71);
+        margin-bottom: 30px;
+        font-size: 30px;
+        
+    }
+</style>
+<body>
+<div id="first-container">
+    <h1>Chronomètre (Start / Pause / Reset)</h1>
+    <div id="container">
+        <p id="he">00:</p>
+        <p id="mi">00:</p>
+        <p id="se">00</p>
+    </div>
+    <div>
+        <button id="play" onclick="demarre()">Démarrer</button>
+        <button id="pause" onclick="paus()">Pause</button>
+        <button id="rein" onclick="reinit()">Réinisialiser</button>
+    </div>
+</div>
+    <script>
+        //recuperer les pargraphes
+        let cho = document.getElementById('he');
+        let  cmin= document.getElementById('mi');
+        let csec= document.getElementById('se');
+
+        //recuperer les buttons
+        var demarrer = document.getElementById('play');
+        var pause = document.getElementById('pause');
+        var reini = document.getElementById('rein');
+        
+        var s = 58;
+        var h = 0;
+        var m = 0;
+
+        let id ;
+        let isRunning = false;
+       
+        //gestion du son
+        var son = new Audio("./son.wav");
+        
+        
+
+        function demarre(){
+            if(!isRunning){
+                isRunning = true;
+                id =  setInterval(function increm(){
+                //Horientation pour format d'écriture seconde
+                if(s<10){
+                    var showsec = csec.innerHTML = '0'+s;
+                s++;
+                }
+                else{
+                    var showsec = csec.innerHTML = s;
+                    s++;
+                } 
+                
+                
+                            
+                
+                
+                //Algorithme pour affichage coordonné;
+                if(s>=61){
+                    son.play();
+                    m++;
+                    //Horientation pour format d'écriture minute
+                    if(m<10){
+                        var showmin = cmin.innerHTML = '0' + m + ':';
+                    }
+                    else{
+                        var showmin = csec.innerHTML = m + ':';
+                    }
+                    s = 0;
+                }
+
+                if(m>=61){
+                    h++;
+                    //Horientation pour format d'écriture heure
+                    if(h<10){
+                        var showcho = cho.innerHTML = '0' +h + ':';
+                    }
+                    else{
+                        var showcho = cho.innerHTML = h + ':';
+                    }
+                    m = 0;
+                }
+           }, 1000);
+           
+        }
+           
+
+        }
+
+        function paus (){
+            clearInterval(id);
+            isRunning = false;
+            // pause.addEventListener('click', function dem (){
+            //     demarre();
+            // });
+        }
+
+
+        function reinit(){
+
+            son.pause();
+            clearInterval(id);
+            s = 0;
+            h = 0;
+            m = 0;
+            isRunning = false;
+            var showsec = csec.innerHTML = '00';
+            var showmin = cmin.innerHTML = '00';
+            var showcho = cho.innerHTML = '00';
+            
+        }
+        
+        
+
+
+
+       
+        // setInterval(function (){
+        //     let d = new Date();
+        //     var time = d.getSeconds();
+        //     var min = d.getMinutes();
+        //     var heure = d.getHours();
+        //     var aff = par.innerHTML = heure + ' ' + min + ' ' + time;
+        //     i++;
+        // }, 1000);
+    </script>
+</body>
+</html>
+
+
+       
